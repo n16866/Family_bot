@@ -19,9 +19,19 @@ async def cmd_start(message: types.Message):
     await message.answer("Hello!")
 
 #Создаём функцию с простой задачей — отправить обратно тот же текст, что ввёл пользователь.
+#@dp.message()
+#async def echo(message: types.Message):
+ #   await message.answer(message.text)
+
+#Создание функции, чтобы бот отвечал на "Привет" от пользователя "Доброго времени суток"
+
 @dp.message()
-async def echo(message: types.Message):
-    await message.answer(message.text)
+async def send_text(message):
+    if message.text.lower() == 'привет':
+        await message.answer ('Доброго времени суток!')
+    elif message.text.lower() == 'пока':
+        await message.answer ('До новых встреч!')
+
 
 # Запуск процесса поллинга новых апдейтов
 async def main():
