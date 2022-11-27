@@ -19,10 +19,6 @@ dp = Dispatcher()
 async def cmd_start(message: types.Message):
     await message.answer("Hello!")
 
-#Создаём функцию с простой задачей — отправить обратно тот же текст, что ввёл пользователь.
-#@dp.message()
-#async def echo(message: types.Message):
- #   await message.answer(message.text)
 
 #Создание функции, чтобы бот отвечал на "Привет" от пользователя "Доброго времени суток"
 
