@@ -1,10 +1,10 @@
 import config
 import utilite
+import callback
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
-
 
 
 async def main():
@@ -16,13 +16,11 @@ async def main():
   dp = Dispatcher()
   # Хэндлер на команду /start
   dp.message.register(utilite.cmd_start, Command(commands=["start"]))
-  dp.message.register(utilite.button, Command(commands=['show']))
-  dp.message.register(utilite.button2, Command(commands=['give']))
-  dp.callback_query.register(utilite.start_func, F.data.startswith('start_'))
-  dp.message.register(utilite.get_form, Command(commands=["form"]))
-  dp.message.register(utilite.get_name, utilite.User_form.waiting_name)
-  dp.message.register(utilite.get_last_name, utilite.User_form.waiting_last_name)
-  dp.message.register(utilite.get_age, utilite.User_form.waiting_Age)
+  dp.callback_query.register(callback.call_start, F.data.startswith('start_'))
+  dp.callback_query.register(callback.call_category, F.data.startswith('category_'))
+  dp.callback_query.register(callback.call_date, F.data.startswith('date_'))
+  dp.callback_query.register(callback.call_cancel, F.data == 'cancel')
+
 
   try:
     await dp.start_polling(bot)
