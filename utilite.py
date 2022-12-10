@@ -11,6 +11,14 @@ class Data_Base_var (StatesGroup):
      date = State()
 
 
+async def cmd_start(message: types.Message, state: FSMContext):
+     await message.answer(
+          text='Привет! Выбери действие',
+          reply_markup=keyboards.kb_start()
+          )
+     await state.set_state(Data_Base_var.kind_of_pay)    
+     
+
 async def get_category(message: types.Message, state: FSMContext):
      await message.answer (
           text='Выберете категорию расхода',
@@ -22,17 +30,46 @@ async def get_summa(message: types.Message, state: FSMContext):
      await message.answer (
           text='Введите сумму операции'
           )
-     await state.set_state(Data_Base_var.summa)
      await state.update_data(summa=message.text)
-
+     await state.set_state(Data_Base_var.date)
+     await state.update_data(date=message.date)
+     
+     
 async def get_date(message: types.Message, state: FSMContext):
      await message.answer (
           text='Выберете месяц',
           reply_markup=keyboards.kb_date()
           )
+     await state.update_data(stat_date=message.text)
      await state.set_state(Data_Base_var.date)
-     await state.update_data(date=message.text)
-
+     await state.update_data(date=message.date)
+     
+     
+     data = await state.get_data()
+     kind_of_pay = data.get('kind_of_pay')
+     kind_of_category = data.get('kind_of_category')
+     summa =  data.get('summa')
+     stat_date = data.get('stat_date')
+     date = data.get('date')
+     if kind_of_pay == 'income':
+          user_data = f'Вот твои данные\r\n' \
+                 f'Операция: доход\r\n'\
+                 f'Сумма {summa}\r\n'\
+                 f'Дата {date}'
+     elif kind_of_pay == 'pay':
+          user_data = f'Вот твои данные\r\n' \
+                 f'Операция: расход\r\n'\
+                 f'Вид категории {kind_of_category}\r\n'\
+                 f'Сумма {summa}\r\n'\
+                 f'Дата {date}'
+     else:
+          user_data = f'Вот твои данные\r\n' \
+                 f'Операция: получить статистику\r\n'\
+                 f'Месяц {stat_date}\r\n'\
+                 f'Дата {date}'
+    
+     await message.answer(user_data)
+     await state.clear()            
 
 # async def get_name(message: types.Message, state: FSMContext):
 #      await message.answer ('Введи свою фамилию')
@@ -47,22 +84,10 @@ async def get_date(message: types.Message, state: FSMContext):
 # async def get_age(message: types.Message, state: FSMContext):
 #      await message.answer ('Введи свой возраст')
 #      await state.update_data(age=message.text)
-#      data = await state.get_data()
-#      name = data.get('name')
-#      last_name = data.get('last_name')
-#      user_data = f'Вот твои данные\r\n' \
-#                  f'Имя {name}\r\n'\
-#                  f'Фамилия {last_name}\r\n'\
-#                  f'Возраст {message.text}'
-#      await message.answer(user_data)
-#      await state.clear()            
 
 
-async def cmd_start(message: types.Message, state: FSMContext):
-     await message.answer(
-          text='Привет! Выбери действие',
-          reply_markup=keyboards.kb_start()
-          )
-     await state.set_state(Data_Base_var.kind_of_pay)     
+    
+
+
 
 
