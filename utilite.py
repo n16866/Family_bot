@@ -10,7 +10,6 @@ class Data_Base_var (StatesGroup):
      stat_date = State()
      date = State()
 
-
 async def cmd_start(message: types.Message, state: FSMContext):
      await message.answer(
           text='Привет! Выбери действие',
@@ -18,24 +17,14 @@ async def cmd_start(message: types.Message, state: FSMContext):
           )
      await state.set_state(Data_Base_var.kind_of_pay)    
      
-
 async def get_category(message: types.Message, state: FSMContext):
      await message.answer (
           text='Выберете категорию расхода',
           reply_markup=keyboards.kb_category()
           )
      await state.set_state(Data_Base_var.kind_of_category)
-
-async def get_summa(message: types.Message, state: FSMContext):
-     await message.answer (
-          text='Введите сумму операции'
-          )
-     await state.update_data(summa=message.text)
-     await state.set_state(Data_Base_var.date)
-     await state.update_data(date=message.date)
-     
-     
-async def get_date(message: types.Message, state: FSMContext):
+    
+async def get_stat_date(message: types.Message, state: FSMContext):
      await message.answer (
           text='Выберете месяц',
           reply_markup=keyboards.kb_date()
@@ -43,8 +32,16 @@ async def get_date(message: types.Message, state: FSMContext):
      await state.update_data(stat_date=message.text)
      await state.set_state(Data_Base_var.date)
      await state.update_data(date=message.date)
-     
-     
+
+async def get_summa(message: types.Message, state: FSMContext):
+     await message.answer (
+          text='Введите сумму операции'
+          )
+     await state.set_state(Data_Base_var.summa)
+
+async def get_date(message: types.Message, state: FSMContext):
+     await state.update_data(summa=message.text)
+     await state.update_data(date=message.date)
      data = await state.get_data()
      kind_of_pay = data.get('kind_of_pay')
      kind_of_category = data.get('kind_of_category')
@@ -66,28 +63,6 @@ async def get_date(message: types.Message, state: FSMContext):
           user_data = f'Вот твои данные\r\n' \
                  f'Операция: получить статистику\r\n'\
                  f'Месяц {stat_date}\r\n'\
-                 f'Дата {date}'
     
      await message.answer(user_data)
      await state.clear()            
-
-# async def get_name(message: types.Message, state: FSMContext):
-#      await message.answer ('Введи свою фамилию')
-#      await state.update_data(name = message.text)
-#      await state.set_state(User_form.waiting_last_name)
-
-# async def get_last_name(message: types.Message, state: FSMContext):
-#      await message.answer ('Введи свою возраст')
-#      await state.update_data(last_name = message.text)
-#      await state.set_state(User_form.waiting_Age)
-
-# async def get_age(message: types.Message, state: FSMContext):
-#      await message.answer ('Введи свой возраст')
-#      await state.update_data(age=message.text)
-
-
-    
-
-
-
-
