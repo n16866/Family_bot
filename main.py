@@ -3,12 +3,14 @@ import utilite
 import callback
 import asyncio
 import logging
+import dbfunc
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
 from utilite import Data_Base_var
 
 
 async def main():
+  dbfunc.bd_create()
   # Включаем логирование, чтобы не пропустить важные сообщения
   logging.basicConfig(level=logging.DEBUG)
   # Объект бота

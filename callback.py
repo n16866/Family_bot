@@ -12,7 +12,7 @@ async def call_start(call: types.CallbackQuery, state: FSMContext):
         await state.update_data(kind_of_pay='pay')
         await utilite.get_category(call.message, state)
     elif call.data == 'start_stat':
-        await state.update_data(stat_date ='stat')
+        await state.update_data(kind_of_pay='stat')
         await utilite.get_stat_date(call.message, state)
 
 async def call_category(call: types.CallbackQuery, state: FSMContext):
